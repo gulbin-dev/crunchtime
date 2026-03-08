@@ -1,0 +1,85 @@
+@layer components {
+  .hamburger-icon {
+    width: 60px;
+    height: 10px;
+    background-color: var(--color-cta);
+    border-radius: 8px;
+  }
+  .tabs button:first-child {
+    border-radius: 8px 0 0 8px;
+  }
+  .tabs button:last-child {
+    border-radius: 0 8px 8px 0;
+  }
+  .tabs button {
+    color: var(--color-light);
+    padding: 0.3em 0.7em;
+    font-weight: bold;
+    width: 90px;
+  }
+  button[aria-selected="true"] {
+    background-color: var(--color-cta);
+  }
+  button[aria-selected="false"] {
+    background-color: var(--color-cta-secondary);
+  }
+  .title::after {
+    content: "";
+    display: flex;
+    flex-direction: column;
+
+    height: 4px;
+    background-color: var(--color-light);
+    font-size: 0.9em;
+    margin-left: 4px;
+  }
+  .carousel {
+    transition: transform 1s ease-in-out;
+  }
+  .top-carousel {
+    transform: translateX(-100%);
+  }
+  .bottom-carousel {
+    transform: translateX(100%);
+  }
+  .mid-carousel {
+    transform: translateX(0);
+  }
+  .iFrame {
+    aspect-ratio: 16/9;
+    font-size: 16px;
+    width: 100%;
+    height: auto;
+  }
+  .reviewBox::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(transparent, var(--color-gray-shade));
+  }
+  .text-heading-lg[aria-current="page"] {
+    color: var(--color-cta);
+    text-decoration: underline;
+  }
+  .iframe-video {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 1080px !important;
+  }
+}
+
+@layer utilities {
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-cta);
+    border-radius: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 8px !important;
+  }
+}
