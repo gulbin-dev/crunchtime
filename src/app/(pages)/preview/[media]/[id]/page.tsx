@@ -15,11 +15,11 @@ const fetcher = (url: string): Promise<Preview> =>
 
 export default function PreviewPage() {
   const params = useParams();
-  const { data } = useSWR(
+  const { data, error } = useSWR(
     `/preview/${params.media}/${params.id}/api/preview?media=${params.media}&id=${params.id}`,
     (url) => fetcher(url),
   );
-
+  if (error) throw error;
   const normalize = data && normalizePreviewData(data);
   if (normalize === undefined) return null;
 
@@ -32,20 +32,22 @@ export default function PreviewPage() {
       <main className="w-full h-full flex flex-col items-center gap-2">
         <section className="relative text-dark w-full max-w-180">
           <div className="w-full max-w-180 max-h-25 tablet:max-h-100 aspect-video mb-5 relative pb-3 justify-self-center">
-            <LiteYouTubeEmbed
-              id={`${videoTrailer?.key}`}
-              iframeClass="iframe-video"
-              title="Youtube video player"
-              lazyLoad={true}
-              poster="maxresdefault"
-              enableJsApi={true}
-              focusOnLoad={true}
-              autoplay={true}
-              seo={{
-                name: `${videoTrailer?.name}`,
-                description: `Official video trailer of ${normalize.normalized?.normalizeTitle}`,
-              }}
-            />
+            <Suspense fallback={<LoaderCardPoster />}>
+              <LiteYouTubeEmbed
+                id={`${videoTrailer?.key}`}
+                iframeClass="iframe-video"
+                title="Youtube video player"
+                lazyLoad={true}
+                poster="maxresdefault"
+                enableJsApi={true}
+                focusOnLoad={true}
+                autoplay={true}
+                seo={{
+                  name: `${videoTrailer?.name}`,
+                  description: `Official video trailer of ${normalize.normalized?.normalizeTitle}`,
+                }}
+              />
+            </Suspense>
           </div>
           <Suspense fallback={<LoaderCardPoster />}>
             <MediaBanner />
@@ -61,7 +63,9 @@ export default function PreviewPage() {
           <h2 className="text-heading-md pt-3 pl-3 pb-1">Reviews</h2>
 
           <div className="max-w-180">
-            <ReviewComponent media={params.media} id={params.id} />
+            <Suspense fallback={<LoaderCardPoster />}>
+              <ReviewComponent media={params.media} id={params.id} />
+            </Suspense>
           </div>
         </section>
       </main>

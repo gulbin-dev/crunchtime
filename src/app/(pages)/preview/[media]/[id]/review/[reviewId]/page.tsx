@@ -5,7 +5,6 @@ import { redirect, RedirectType, useParams } from "next/navigation";
 import useSWR from "swr";
 import ReviewComponent from "@/src/app/components/ReviewComponent";
 import LineBreak from "@/src/app/components/UI/LineBreak";
-import Link from "next/link";
 import { IoChevronBack } from "react-icons/io5";
 const fetcher = (url: string): Promise<FetchResponse<Review[]>> =>
   fetch(url).then((res) => res.json());
