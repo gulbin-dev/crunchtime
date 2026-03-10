@@ -73,8 +73,9 @@ export default function ReviewComponent({
         .slice(0, 5)
         .filter((item) => item.id !== reviewID || "")
         .map((item) => {
-          const isUpdated = item.updated_at.length > 0;
-          console.log("avatarpath", item.author_details.avatar_path);
+          const isUpdated = item.updated_at
+            ? item.updated_at.length > 0
+            : false;
           const chekerResult = avatarPathChecker(
             item.author_details.avatar_path,
           );
@@ -83,7 +84,7 @@ export default function ReviewComponent({
             "en-US",
             { year: "numeric", month: "long", day: "numeric" },
           );
-          const updateDate = new Date(item.updated_at).toLocaleDateString(
+          const updateDate = new Date(item.updated_at || "").toLocaleDateString(
             "en-US",
             { year: "numeric", month: "long", day: "numeric" },
           );

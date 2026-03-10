@@ -22,11 +22,14 @@ export default function ReviewPage() {
         <PageLoader />
       </div>
     );
+
   const review = data.results.filter(
     (item) => item.id === params.reviewId?.slice(0, -3),
   );
-  const isUpdated = review[0].updated_at.length > 0;
-  console.log("reviewID");
+  console.log(review[0]);
+  const isUpdated = review[0].updated_at
+    ? review[0].updated_at.length > 0
+    : false;
   const createdDate = new Date(review[0].created_at).toLocaleDateString(
     "en-US",
     {
@@ -35,14 +38,13 @@ export default function ReviewPage() {
       day: "numeric",
     },
   );
-  const updateDate = new Date(review[0].updated_at).toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    },
-  );
+  const updateDate = new Date(
+    isUpdated ? review[0].updated_at : "",
+  ).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
   return (
     <main className="w-full max-w-180 h-auto justify-self-center">
       <button
