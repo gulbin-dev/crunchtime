@@ -13,7 +13,6 @@ import LoaderCardPoster from "@/src/app/components/UI/LoaderCardPoster";
 import FailedDataDialog from "@/src/app/components/UI/Error/FailedDataDialog";
 import PageLoader from "@/src/app/components/UI/PageLoader";
 import Skeleton from "react-loading-skeleton";
-import ReviewLoader from "./_component/ReviewLoader";
 const fetcher = (url: string): Promise<Preview> =>
   fetch(url).then((res) => res.json());
 
