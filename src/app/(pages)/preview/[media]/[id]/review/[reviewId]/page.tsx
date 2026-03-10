@@ -6,6 +6,7 @@ import useSWR from "swr";
 import ReviewComponent from "@/src/app/components/ReviewComponent";
 import LineBreak from "@/src/app/components/UI/LineBreak";
 import { IoChevronBack } from "react-icons/io5";
+import PageLoader from "@/src/app/components/UI/PageLoader";
 const fetcher = (url: string): Promise<FetchResponse<Review[]>> =>
   fetch(url).then((res) => res.json());
 export default function ReviewPage() {
@@ -15,7 +16,12 @@ export default function ReviewPage() {
     (url) => fetcher(url),
   );
   if (error) console.error(error);
-  if (!data) return null;
+  if (!data)
+    return (
+      <div className="w-full h-screen flex justify-center items-center">
+        <PageLoader />
+      </div>
+    );
   const review = data.results.filter(
     (item) => item.id === params.reviewId?.slice(0, -3),
   );
@@ -38,7 +44,7 @@ export default function ReviewPage() {
     },
   );
   return (
-    <main className="w-full max-w-180 h-auto">
+    <main className="w-full max-w-180 h-auto justify-self-center">
       <button
         className="ml-3 bg-cta rounded-full p-1"
         onClick={() =>
@@ -75,13 +81,12 @@ export default function ReviewPage() {
         {data.results
           .filter((item) => item.id !== review[0].id)
           .map((item) => (
-            <li key={item.id}>
-              <ReviewComponent
-                media={params.media}
-                id={params.id}
-                reviewID={params.reviewId?.slice(0, -3).toString()}
-              />
-            </li>
+            <ReviewComponent
+              key={item.id}
+              media={params.media}
+              id={params.id}
+              reviewID={params.reviewId?.slice(0, -3).toString()}
+            />
           ))}
       </div>
     </main>

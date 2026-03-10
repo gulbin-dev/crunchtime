@@ -2,41 +2,43 @@
 import Link from "next/link";
 import Image from "next/image";
 import {
-  FetchResponse,
   Genres,
   MediaTypes,
   Movie,
   TV,
+  FetchResponse,
 } from "../../utils/types";
 import { FaStar } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import genreAggregation from "../../utils/genreAggregation";
 import UI_Brick from "../../components/UI/UI_Brick";
-import { use } from "react";
-interface PropType {
-  fiveTrendData: Promise<FetchResponse<MediaTypes>>;
-  movieGenreData: Promise<Genres>;
-  tvGenreData: Promise<Genres>;
-}
+import FailedDataDialog from "../../components/UI/Error/FailedDataDialog";
+import useSWR from "swr";
 
-/**
- * FiveTrend component
- * @param {PropType} props - props including fiveTrendData, movieGenreData, and tvGenreData
- * @returns {JSX.Element} - JSX element to render
- * @description - This component renders the five most trending movies or TV shows based on their popularity.
- * It also renders the genre names of the trending movies or TV shows.
- */
-export default function FiveTrend({
-  fiveTrendData,
-  movieGenreData,
-  tvGenreData,
-}: PropType) {
+const fetcher: <T>(url: string) => Promise<T> = (url) =>
+  fetch(url).then((res) => res.json());
+
+export default function FiveTrend() {
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const fiveTrend = use(fiveTrendData);
-  const movieGenre = use(movieGenreData);
-  const tvGenre = use(tvGenreData);
+  const { data: fiveTrend, error: fiveTrendError } = useSWR(
+    "/api/heroTrend",
+    (url) => fetcher<FetchResponse<MediaTypes>>(url),
+    {
+      suspense: true,
+    },
+  );
+  const { data: movieGenre } = useSWR(
+    "/api/movie",
+    (url) => fetcher<Genres>(url),
+    {
+      suspense: true,
+    },
+  );
+  const { data: tvGenre } = useSWR("/api/tv", (url) => fetcher<Genres>(url), {
+    suspense: true,
+  });
   const genres = genreAggregation(movieGenre, tvGenre);
+
   const normalize = fiveTrend.results
     .sort((a, b) => b.popularity - a.popularity)
     .slice(0, 5)
@@ -52,20 +54,22 @@ export default function FiveTrend({
       return { ...item, title, genreNames };
     });
 
-  const activeItem = normalize[currentIndex];
-
   useEffect(() => {
-    if (normalize.length === 0) return;
+    if (!normalize) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev === normalize.length - 1 ? 0 : prev + 1));
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [normalize.length]);
+  }, [normalize, fiveTrendError]);
+
+  const activeItem = normalize?.[currentIndex];
+
   return (
     <>
       {/* 1. Visually Hidden Live Region */}
+      {fiveTrendError && <FailedDataDialog error={fiveTrendError} />}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {activeItem
           ? `${activeItem.media_type === "movie" ? "Movie" : "TV Show"} ${activeItem.title} genres are ${activeItem.genreNames.join(", ")}`

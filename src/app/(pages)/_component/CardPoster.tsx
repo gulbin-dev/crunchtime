@@ -36,15 +36,6 @@ export default function CardPoster({
     { suspense: true },
   );
   const normalized = normalizeData(data);
-  const showMoreBtn = normalized.length && (
-    <Link
-      href="/"
-      className="rounded-xl bg-cta w-fit h-fit text-nowrap text-light py-1 px-2"
-      aria-label={`Show more ${catalog === "movie" ? "movies" : "TV shows"}`}
-    >
-      Show more
-    </Link>
-  );
 
   const cards = normalized.slice(0, 10).map((item, i) => {
     return isValidating || isLoading ? (
@@ -71,18 +62,17 @@ export default function CardPoster({
                 className="rounded-t-xl aspect-6/7"
               />
             )}
-
-            <h3 className="m-1">{item.normalized?.normalizeTitle}</h3>
+            <h3 className="m-1">
+              {item.normalized !== undefined &&
+              item.normalized.normalizeTitle.length > 30
+                ? item.normalized?.normalizeTitle.slice(0, 30).concat("...")
+                : item.normalized?.normalizeTitle}
+            </h3>
           </div>
         </Link>
       </li>
     );
   });
 
-  return (
-    <>
-      {cards}
-      {showMoreBtn}
-    </>
-  );
+  return <>{cards}</>;
 }

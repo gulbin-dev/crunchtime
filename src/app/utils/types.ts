@@ -238,4 +238,14 @@ export interface FetchResponse<T> {
   total_results: number;
 }
 
+export interface Response<T> {
+  data: T | undefined;
+  error: {
+    state: boolean;
+    type: string;
+    status: number;
+    message: string;
+  };
+}
+
 export type Preview = MoviePreview | TVPreview;

@@ -1,5 +1,6 @@
+import { FetchResponse } from "@/src/app/utils/types";
 import { cacheTag } from "next/cache";
-import { FetchResponse, MediaTypes } from "../utils/types";
+import { MediaTypes, Response } from "../utils/types";
 const options = {
   method: "GET",
   headers: {
@@ -10,7 +11,7 @@ const options = {
 export async function discoverMedia(
   toFetch: string,
   genreParam: string[],
-): Promise<FetchResponse<MediaTypes>> {
+): Promise<Response<FetchResponse<MediaTypes>> | null> {
   "use cache";
   cacheTag("discover");
   const genre = genreParam.join("|");
@@ -20,17 +21,35 @@ export async function discoverMedia(
       options,
     );
     if (!response.ok) {
-      throw new Error(`${response.status}`);
+      return {
+        data: undefined,
+        error: {
+          state: true,
+          type: "HTTP_ERROR",
+          status: response.status,
+          message: "Failed to fetch data, please try again",
+        },
+      };
     }
-    return response.json();
-  } catch (error) {
-    if (error instanceof TypeError) {
-      console.error(`Network Error - ${error.name}: ${error.message}`);
-    } else if (error instanceof Error) {
-      console.error(`HTTP Error - Status: ${error.message}`);
-    } else if (error instanceof AbortController) {
-      console.error("Fetch Aborted");
-    }
-    throw error;
+    return {
+      data: await response.json(),
+      error: {
+        state: false,
+        type: "FETCH_SUCCESS",
+        status: 200,
+        message: "Data fetched successfully",
+      },
+    };
+  } catch {
+    return {
+      data: undefined,
+      error: {
+        state: true,
+        type: "NETWORK_ERROR",
+        status: 500,
+        message:
+          "Unstable network connection, please check your internet connection",
+      },
+    };
   }
 }

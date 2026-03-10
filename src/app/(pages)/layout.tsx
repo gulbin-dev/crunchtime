@@ -8,6 +8,8 @@ import { SWRConfig } from "swr";
 import { discoverMedia } from "../server/discoverMedia";
 import { Suspense } from "react";
 import PageLoader from "../components/UI/PageLoader";
+
+import { movieGenreList, trendingList, tvGenreList } from "@server/cache-fetch";
 import "react-loading-skeleton/dist/skeleton.css";
 import "@styles/globals.css";
 export const metadata: Metadata = {
@@ -50,12 +52,16 @@ const openSans = Open_Sans({
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [trending, action, animation, drama] = await Promise.all([
-    discoverMedia("movie", [""]),
-    discoverMedia("movie", ["28", "10759"]),
-    discoverMedia("movie", ["16"]),
-    discoverMedia("movie", ["18"]),
-  ]);
+  const [trending, action, animation, drama, heroTrend, movieGenre, tvGenre] =
+    await Promise.all([
+      discoverMedia("movie", [""]),
+      discoverMedia("movie", ["28", "10759"]),
+      discoverMedia("movie", ["16"]),
+      discoverMedia("movie", ["18"]),
+      trendingList(),
+      movieGenreList(),
+      tvGenreList(),
+    ]);
   return (
     <html
       lang="en"
@@ -80,6 +86,9 @@ export default async function RootLayout({
               "/api/catalog?mediaType=movie&genre=28|10759": action,
               "/api/catalog?mediaType=movie&genre=16": animation,
               "/api/catalog?mediaType=movie&genre=18": drama,
+              "/api/movie": movieGenre,
+              "/api/tv": tvGenre,
+              "/api/heroTrend": heroTrend,
             },
           }}
         >

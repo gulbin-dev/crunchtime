@@ -6,14 +6,16 @@ import InitialLoaderCardPoster from "../../components/UI/InitialLoaderCardPoster
 import { Genres } from "../../utils/types";
 import genreAggregation from "../../utils/genreAggregation";
 import { checkGenreName } from "../../utils/checkGenreName";
+import useSWR from "swr";
 
-import { use } from "react";
 interface PropType {
   sectionTitle: string;
   genre: string[];
-  movieGenreData: Promise<Genres>;
-  tvGenreData: Promise<Genres>;
 }
+
+const fetcher: <T>(url: string) => Promise<T> = (url) =>
+  fetch(url).then((res) => res.json());
+
 /**
  * CatalogSection component
  * @description - This component renders a section of movies or TV shows based on their popularity.
@@ -24,15 +26,18 @@ interface PropType {
  * @param {Promise<Genres>} tvGenreData - promise of TV genre data
  * @returns {JSX.Element} - JSX element to render
  */
-export default function CatalogSection({
-  sectionTitle,
-  genre,
-  movieGenreData,
-  tvGenreData,
-}: PropType) {
+export default function CatalogSection({ sectionTitle, genre }: PropType) {
   const [catalog, setCatalog] = useState("movie");
-  const movieGenre = use(movieGenreData);
-  const tvGenre = use(tvGenreData);
+  const { data: movieGenre } = useSWR(
+    "/api/movie",
+    (url) => fetcher<Genres>(url),
+    {
+      suspense: true,
+    },
+  );
+  const { data: tvGenre } = useSWR("/api/tv", (url) => fetcher<Genres>(url), {
+    suspense: true,
+  });
   const fullGenreList = genreAggregation(movieGenre, tvGenre);
   const genreID = fullGenreList
     .filter((item) => checkGenreName(item, genre))
@@ -68,10 +73,10 @@ export default function CatalogSection({
         </div>
       </div>
       <div
-        className="w-[90vw] h-42 p-3 relative overflow-y-hidden overflow-x-auto overlayscrollbars-react scroller"
+        className="w-[90vw] max-w-7xl place-self-center h-42 p-3 relative overflow-y-hidden overflow-x-auto  scroller"
         role="tab-panel"
       >
-        <ul className="flex gap-3 items-center " aria-live="polite">
+        <ul className="flex gap-3 items-center w-full" aria-live="polite">
           <Suspense fallback={<InitialLoaderCardPoster />}>
             <CardPoster catalog={catalog} filteredGenre={filteredGenre} />
           </Suspense>

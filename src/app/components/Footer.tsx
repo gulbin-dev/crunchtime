@@ -2,46 +2,53 @@ import Link from "next/link";
 import { BsLinkedin, BsGithub, BsGlobe } from "react-icons/bs";
 export default function Footer() {
   return (
-    <footer className="bg-dark-50 text-light px-3 py-4 place-self-center w-full max-w-180">
-      <h2 className="text-heading-lg">CrunchTime</h2>
-      <p className="mt-1">
-        A{" "}
-        <span className="font-bold">
-          <em>demo website</em>
-        </span>{" "}
-        made by a frontend React web developer Joshua Glenn R. Gulbin.
-      </p>
+    <footer className="bg-dark-50 text-light py-4 w-full flex justify-center">
+      <div className="max-w-7xl w-full h-full p-5">
+        <h2 className="text-heading-lg">CrunchTime</h2>
+        <p className="mt-1 tablet:mt-2 tablet:px-3">
+          A{" "}
+          <span className="font-bold">
+            <em>demo website</em>
+          </span>{" "}
+          made by a frontend React web developer Joshua Glenn R. Gulbin.
+        </p>
 
-      <ul className="flex gap-2 p-3">
-        <li>
-          <Link
-            href="https://www.linkedin.com/in/joshua-glenn-gulbin/"
-            target="_blank"
-            aria-label="Navigate to the developer's Linkedin Profile"
-          >
-            <BsLinkedin className="text-heading-lg" aria-hidden />
-          </Link>
-        </li>
-        <li>
-          <Link
-            href="https://github.com/gulbin-dev"
-            target="_blank"
-            aria-label="Navigate to the developer's Github Profile"
-          >
-            <BsGithub className="text-heading-lg" aria-hidden />
-          </Link>
-        </li>
-        <li>
-          <Link
-            href=""
-            target="_blank"
-            aria-label="Navigate to the developer's portfolio website"
-          >
-            <BsGlobe className="text-heading-lg" aria-hidden />
-          </Link>
-        </li>
-      </ul>
-      <p>&copy; 2026 CrunchTime. All Rights Reserved</p>
+        <h3 className="mt-2 text-heading-md tablet:text-heading-md tablet:mt-4 pl-3 tablet:pl-5">
+          Social Links
+        </h3>
+        <ul className="flex gap-2 p-3 tablet:mt-1 tablet:px-8">
+          <li>
+            <Link
+              href="https://www.linkedin.com/in/joshua-glenn-gulbin/"
+              target="_blank"
+              aria-label="Navigate to the developer's Linkedin Profile"
+            >
+              <BsLinkedin className="text-heading-lg" aria-hidden />
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="https://github.com/gulbin-dev"
+              target="_blank"
+              aria-label="Navigate to the developer's Github Profile"
+            >
+              <BsGithub className="text-heading-lg" aria-hidden />
+            </Link>
+          </li>
+          <li>
+            <Link
+              href=""
+              target="_blank"
+              aria-label="Navigate to the developer's portfolio website"
+            >
+              <BsGlobe className="text-heading-lg" aria-hidden />
+            </Link>
+          </li>
+        </ul>
+        <p className="place-self-center">
+          &copy; 2026 CrunchTime. All Rights Reserved
+        </p>
+      </div>
     </footer>
   );
 }

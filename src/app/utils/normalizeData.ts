@@ -20,11 +20,11 @@ function helperFunction(data: Movie | TV | MoviePreview | TVPreview) {
   let normalizeMovie = 0;
   let normalizeTV = 0;
   if ("original_title" in data) {
-    normalizeTitle = data.original_title;
+    normalizeTitle = data.title;
     normalizeMovie = (data as MoviePreview).runtime;
     return { normalizeTitle, normalizeMovie };
   } else if ("original_name" in data) {
-    normalizeTitle = data.original_name;
+    normalizeTitle = data.name;
     normalizeTV = (data as TVPreview).number_of_seasons;
     return { normalizeTitle, normalizeTV };
   }

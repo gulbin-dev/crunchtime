@@ -2,9 +2,9 @@ import Link from "next/link";
 import { BsLinkedin, BsGithub, BsGlobe } from "react-icons/bs";
 export default function AboutPage() {
   return (
-    <main className="p-3">
+    <main className="p-3 max-w-7xl flex flex-col items-center justify-self-center w-full">
       <h1 className="text-center text-heading-xl mt-5">CrunchTime</h1>
-      <p className="mt-5 text-justify">
+      <p className="mt-5 text-justify inline-block max-w-100">
         This website is for{" "}
         <span className="font-bold">
           <em>demo purposes</em>
@@ -30,7 +30,10 @@ export default function AboutPage() {
             target="_blank"
             aria-label="Navigate to the developer's Linkedin Profile"
           >
-            <BsLinkedin className="text-heading-lg" aria-hidden />
+            <BsLinkedin
+              className="text-heading-xl text-cta bg-white p-1 rounded-md"
+              aria-hidden
+            />
           </Link>
         </li>
         <li>
@@ -39,7 +42,10 @@ export default function AboutPage() {
             target="_blank"
             aria-label="Navigate to the developer's Github Profile"
           >
-            <BsGithub className="text-heading-lg" aria-hidden />
+            <BsGithub
+              className="text-heading-xl text-cta bg-white p-1 rounded-md"
+              aria-hidden
+            />
           </Link>
         </li>
         <li>
@@ -48,7 +54,10 @@ export default function AboutPage() {
             target="_blank"
             aria-label="Navigate to the developer's portfolio website"
           >
-            <BsGlobe className="text-heading-lg" aria-hidden />
+            <BsGlobe
+              className="text-heading-xl text-cta bg-white p-1 rounded-md"
+              aria-hidden
+            />
           </Link>
         </li>
       </ul>

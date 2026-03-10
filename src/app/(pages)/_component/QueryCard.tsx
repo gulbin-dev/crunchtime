@@ -16,10 +16,10 @@ export default function QueryCard({
   isMovie: boolean;
 }) {
   const mediaType = isMovie ? "movie" : "tv";
-  const { data: movie } = useSWR(`/search/api/movie`, (url) => fetcher(url), {
+  const { data: movie } = useSWR(`/api/movie`, (url) => fetcher(url), {
     suspense: true,
   });
-  const { data: tv } = useSWR(`/search/api/tv`, (url) => fetcher(url), {
+  const { data: tv } = useSWR(`/api/tv`, (url) => fetcher(url), {
     suspense: true,
   });
   const genres = genreAggregation(movie, tv);
@@ -28,7 +28,7 @@ export default function QueryCard({
     .map((item) => item.name);
   return (
     <Link href={`/preview/${mediaType}/${item.id}`}>
-      <div className="flex w-full gap-2">
+      <div className="flex w-34 gap-2 bg-secondary text-dark rounded-xl tablet:w-40 tablet:text-heading-md ">
         {item.poster_path === null ? (
           <div className="w-15 h-17.5">
             <CardPosterImagePlaceholder />
@@ -39,12 +39,12 @@ export default function QueryCard({
             alt=""
             width={120}
             height={140}
-            className="rounded-t-xl aspect-6/7 object-cover"
+            className="rounded-l-xl  aspect-6/7 object-cover"
           />
         )}
 
         <div>
-          <h2>
+          <h2 className="mt-2">
             {item.normalized && item.normalized?.normalizeTitle.length > 25
               ? item.normalized?.normalizeTitle.slice(0, 25).concat("...")
               : item.normalized?.normalizeTitle}
