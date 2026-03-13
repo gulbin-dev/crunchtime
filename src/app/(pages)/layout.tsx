@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-
-import { Lato, Open_Sans } from "next/font/google";
+import { Poppins, Roboto } from "next/font/google";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { SWRConfig } from "swr";
 import { discoverMedia } from "../server/discoverMedia";
 import { Suspense } from "react";
-import PageLoader from "../components/UI/PageLoader";
+import PageLoader from "../components/ui/PageLoader";
 
 import { movieGenreList, trendingList, tvGenreList } from "@server/cache-fetch";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -16,15 +15,15 @@ export const metadata: Metadata = {
   title: "CrunchTime",
 };
 
-const lato = Lato({
+const poppins = Poppins({
   weight: ["400", "700"],
-  variable: "--font-lato",
+  variable: "--font-poppins",
   subsets: ["latin"],
   fallback: ["Arial"],
 });
-const openSans = Open_Sans({
+const roboto = Roboto({
   weight: "400",
-  variable: "--font-open-sans",
+  variable: "--font-roboto",
   subsets: ["latin"],
   fallback: ["sans serif"],
 });
@@ -65,7 +64,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${lato.variable} ${openSans.variable}`}
+      className={`${poppins.variable} ${roboto.variable}`}
       data-overlayscrollbars-initialize
     >
       <Suspense
