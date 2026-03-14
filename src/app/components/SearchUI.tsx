@@ -102,7 +102,7 @@ export default function SearchUI({
           )}
 
           {/* Render results as soon as they exist */}
-          <ul className="my-5 grid gap-2 grid-cols-[repeat(auto-fill,minmax(260px,1fr))] place-items-center w-full desktop:gap-y-5">
+          <ul className="my-5 grid gap-2 grid-cols-[repeat(auto-fill,minmax(260px,1fr))] place-items-center w-full desktop:gap-y-5 tablet:gap-5 tablet:px-8">
             {normalized.map((item) => (
               <li key={item.id}>
                 <Suspense fallback={<LoaderCardPoster />}>
