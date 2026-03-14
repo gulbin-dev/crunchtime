@@ -43,51 +43,53 @@ export default function PreviewPage() {
     <main
       className={`w-full h-full flex flex-col gap-2 ${theme === "light" ? "bg-light text-dark" : "bg-dark text-light"}`}
     >
-      <button
-        className="bg-white text-dark text-start py-0.5 px-1 mt-3 w-[90%] rounded-lg tablet:w-40 tablet:mt-3 tablet:ml-3"
-        onClick={toggleModal}
-      >
-        Search...
-      </button>
-      {isModalOpen && <SearchUI isOpen={isModalOpen} onClose={toggleModal} />}
-      <section className="relative w-full max-w-180">
-        <div className="w-full max-w-180 max-h-25 tablet:max-h-100 aspect-video mb-5 relative pb-3 justify-self-center">
+      <div className="max-w-180 place-self-center relative w-full">
+        <button
+          className="bg-white mb-3 text-dark text-start py-0.5 px-1 mt-3 w-[90%] rounded-lg tablet:w-40 tablet:mt-3 tablet:ml-3"
+          onClick={toggleModal}
+        >
+          Search...
+        </button>
+        {isModalOpen && <SearchUI isOpen={isModalOpen} onClose={toggleModal} />}
+        <section className="relative w-full max-w-180">
+          <div className="w-full max-w-180 max-h-25 tablet:max-h-100 aspect-video mb-5 relative pb-3 justify-self-center">
+            <Suspense fallback={<LoaderCardPoster />}>
+              <LiteYouTubeEmbed
+                id={`${videoTrailer?.key}`}
+                iframeClass="iframe-video"
+                title="Youtube video player"
+                lazyLoad={true}
+                poster="maxresdefault"
+                enableJsApi={true}
+                focusOnLoad={true}
+                autoplay={true}
+                seo={{
+                  name: `${videoTrailer?.name}`,
+                  description: `Official video trailer of ${normalize.normalized?.normalizeTitle}`,
+                }}
+              />
+            </Suspense>
+          </div>
           <Suspense fallback={<LoaderCardPoster />}>
-            <LiteYouTubeEmbed
-              id={`${videoTrailer?.key}`}
-              iframeClass="iframe-video"
-              title="Youtube video player"
-              lazyLoad={true}
-              poster="maxresdefault"
-              enableJsApi={true}
-              focusOnLoad={true}
-              autoplay={true}
-              seo={{
-                name: `${videoTrailer?.name}`,
-                description: `Official video trailer of ${normalize.normalized?.normalizeTitle}`,
-              }}
-            />
+            <MediaBanner />
           </Suspense>
-        </div>
-        <Suspense fallback={<LoaderCardPoster />}>
-          <MediaBanner />
-        </Suspense>
 
-        <div className="px-3 text-pretty mt-5">
-          <h2 className="text-heading-lg">Overview</h2>
-          <p className="mt-2">{normalize.overview}</p>
-        </div>
-      </section>
-      <LineBreak />
-      <section className="relative">
-        <h2 className="text-heading-md pt-3 pl-3 pb-1">Reviews</h2>
+          <div className="px-3 text-pretty mt-5">
+            <h2 className="text-heading-lg">Overview</h2>
+            <p className="mt-2">{normalize.overview}</p>
+          </div>
+        </section>
+        <LineBreak />
+        <section className="relative">
+          <h2 className="text-heading-md pt-3 pl-3 pb-1">Reviews</h2>
 
-        <div className="max-w-180 px-5">
-          <Suspense fallback={<PageLoader />}>
-            <ReviewComponent media={params.media} id={params.id} />
-          </Suspense>
-        </div>
-      </section>
+          <div className="max-w-180 px-5">
+            <Suspense fallback={<PageLoader />}>
+              <ReviewComponent media={params.media} id={params.id} />
+            </Suspense>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
