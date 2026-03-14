@@ -12,7 +12,7 @@ import { FaStar } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import genreAggregation from "../../utils/genreAggregation";
 import UI_Brick from "../../components/ui/UI_Brick";
-import FailedDataDialog from "../../components/ui/Error/FailedDataDialog";
+import FailedDataDialog from "../../components/ui/error/FailedDataDialog";
 import useSWR from "swr";
 import { fetcher } from "@utils/swr/fetcher";
 

@@ -9,7 +9,7 @@ import { Suspense, useState } from "react";
 import MediaBanner from "@components/MediaBanner";
 import LineBreak from "@components/ui/LineBreak";
 import LoaderCardPoster from "@components/ui/LoaderCardPoster";
-import FailedDataDialog from "@components/ui/Error/FailedDataDialog";
+import FailedDataDialog from "@components/ui/error/FailedDataDialog";
 import PageLoader from "@components/ui/PageLoader";
 import Skeleton from "react-loading-skeleton";
 import { fetcher } from "@utils/swr/fetcher";
