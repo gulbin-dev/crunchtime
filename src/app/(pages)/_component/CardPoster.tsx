@@ -4,9 +4,9 @@ import { normalizeData } from "@utils/normalizeData";
 import Link from "next/link";
 import "react-loading-skeleton/dist/skeleton.css";
 import useSWR from "swr";
-import { FetchResponse, MediaTypes } from "../../utils/types";
-import CardPosterImagePlaceholder from "../../components/ui/CardPosterImagePlaceholder";
-import LoaderCardPoster from "../../components/ui/LoaderCardPoster";
+import { FetchResponse, MediaTypes } from "@utils/types";
+import CardPosterImagePlaceholder from "@components/ui/CardPosterImagePlaceholder";
+import LoaderCardPoster from "@components/ui/LoaderCardPoster";
 import { fetcher } from "@utils/swr/fetcher";
 
 /**

@@ -2,10 +2,10 @@
 import { useState } from "react";
 import CardPoster from "./CardPoster";
 import { Suspense } from "react";
-import InitialLoaderCardPoster from "../../components/ui/InitialLoaderCardPoster";
-import { Genres } from "../../utils/types";
-import genreAggregation from "../../utils/genreAggregation";
-import { checkGenreName } from "../../utils/checkGenreName";
+import InitialLoaderCardPoster from "@components/ui/InitialLoaderCardPoster";
+import { Genres } from "@utils/types";
+import genreAggregation from "@utils/genreAggregation";
+import { checkGenreName } from "@utils/checkGenreName";
 import useSWR from "swr";
 import { fetcher } from "@utils/swr/fetcher";
 
