@@ -2,9 +2,9 @@
 
 import { FetchResponse, Review } from "@utils/types";
 import Image from "next/image";
-import AvatarPlaceholder from "./ui/AvatarPlaceholder";
+import AvatarPlaceholder from "./UI/AvatarPlaceholder";
 import { useLayoutEffect, useRef, useState } from "react";
-import ShowMoreBtn from "./ui/ShowMoreBtn";
+import ShowMoreBtn from "./UI/ShowMoreBtn";
 import useSWR from "swr";
 import { ParamValue } from "next/dist/server/request/params";
 import Link from "next/link";

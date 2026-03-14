@@ -2,7 +2,7 @@
 import { useState } from "react";
 import CardPoster from "./CardPoster";
 import { Suspense } from "react";
-import InitialLoaderCardPoster from "@components/ui/InitialLoaderCardPoster";
+import InitialLoaderCardPoster from "@/app/components/UI/InitialLoaderCardPoster";
 import { Genres } from "@utils/types";
 import genreAggregation from "@utils/genreAggregation";
 import { checkGenreName } from "@utils/checkGenreName";

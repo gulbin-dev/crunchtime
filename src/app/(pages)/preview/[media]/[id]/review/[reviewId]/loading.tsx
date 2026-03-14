@@ -1,5 +1,5 @@
 "use client";
-import PageLoader from "@components/ui/PageLoader";
+import PageLoader from "@/app/components/UI/PageLoader";
 import { useTheme } from "@utils/zustand/theme";
 export default function ReviewLoading() {
   const theme = useTheme((state) => state.theme);

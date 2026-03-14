@@ -1,5 +1,5 @@
-import CardPosterImagePlaceholder from "@components/ui/CardPosterImagePlaceholder";
-import UI_Brick from "@components/ui/UI_Brick";
+import CardPosterImagePlaceholder from "@/app/components/UI/CardPosterImagePlaceholder";
+import UI_Brick from "@/app/components/UI/UI_Brick";
 import genreAggregation from "@utils/genreAggregation";
 import { Movie, TV, Genres } from "@utils/types";
 import Image from "next/image";

@@ -6,7 +6,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import { SWRConfig } from "swr";
 import { discoverMedia } from "@server/discoverMedia";
 import { Suspense } from "react";
-import PageLoader from "@components/ui/PageLoader";
+import PageLoader from "@/app/components/UI/PageLoader";
 import { trendingList } from "@server/trendingList";
 import { movieGenreList } from "@server/movieGenres";
 import { tvGenreList } from "@server/tvGenres";

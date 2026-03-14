@@ -5,8 +5,8 @@ import { FetchResponse, MediaTypes } from "../utils/types";
 import QueryCard from "./QueryCard";
 import { normalizeData } from "@utils/normalizeData";
 import { TbLetterX } from "react-icons/tb";
-import LoaderCardPoster from "./ui/LoaderCardPoster";
-import PageLoader from "./ui/PageLoader";
+import LoaderCardPoster from "./UI/LoaderCardPoster";
+import PageLoader from "./UI/PageLoader";
 import { fetcher } from "@utils/swr/fetcher";
 import { motion } from "motion/react";
 export default function SearchUI({
