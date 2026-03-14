@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { Poppins, Roboto } from "next/font/google";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "@components/Header";
+import Footer from "@components/Footer";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { SWRConfig } from "swr";
-import { discoverMedia } from "../server/discoverMedia";
+import { discoverMedia } from "@server/discoverMedia";
 import { Suspense } from "react";
-import PageLoader from "../components/ui/PageLoader";
+import PageLoader from "@components/ui/PageLoader";
 import { trendingList } from "@server/trendingList";
 import { movieGenreList } from "@server/movieGenres";
 import { tvGenreList } from "@server/tvGenres";

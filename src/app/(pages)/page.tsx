@@ -3,9 +3,9 @@ import Link from "next/link";
 import FiveTrend from "./_component/FiveTrend";
 import CatalogSection from "./_component/CatalogSection";
 import { Suspense, useState } from "react";
-import FiveTrendLoader from "../components/ui/FiveTrendLoader";
-import PageLoader from "../components/ui/PageLoader";
-import { useTheme } from "../utils/zustand/theme";
+import FiveTrendLoader from "@components/ui/FiveTrendLoader";
+import PageLoader from "@components/ui/PageLoader";
+import { useTheme } from "@utils/zustand/theme";
 import { motion, AnimatePresence } from "motion/react";
 import SearchUI from "@components/SearchUI";
 

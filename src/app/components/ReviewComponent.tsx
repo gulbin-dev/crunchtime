@@ -1,6 +1,6 @@
 "use client";
 
-import { FetchResponse, Review } from "../utils/types";
+import { FetchResponse, Review } from "@utils/types";
 import Image from "next/image";
 import AvatarPlaceholder from "./ui/AvatarPlaceholder";
 import { useLayoutEffect, useRef, useState } from "react";
@@ -8,8 +8,8 @@ import ShowMoreBtn from "./ui/ShowMoreBtn";
 import useSWR from "swr";
 import { ParamValue } from "next/dist/server/request/params";
 import Link from "next/link";
-import { avatarPathChecker } from "../utils/avatarPathChecker";
-import { fetcher } from "../utils/swr/fetcher";
+import { avatarPathChecker } from "@utils/avatarPathChecker";
+import { fetcher } from "@utils/swr/fetcher";
 
 export default function ReviewComponent({
   media,

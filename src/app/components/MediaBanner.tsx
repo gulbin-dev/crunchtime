@@ -2,13 +2,13 @@
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
-import { normalizePreviewData } from "../utils/normalizeData";
+import { normalizePreviewData } from "@utils/normalizeData";
 import UI_Brick from "./ui/UI_Brick";
-import { handleRuntime } from "../utils/previewHelpers";
-import { Preview } from "../utils/types";
+import { handleRuntime } from "@utils/previewHelpers";
+import { Preview } from "@utils/types";
 import CardPosterImagePlaceholder from "./ui/CardPosterImagePlaceholder";
-import { fetcher } from "../utils/swr/fetcher";
-import { useTheme } from "../utils/zustand/theme";
+import { fetcher } from "@utils/swr/fetcher";
+import { useTheme } from "@utils/zustand/theme";
 export default function MediaBanner() {
   const params = useParams();
   const { data, error } = useSWR(
