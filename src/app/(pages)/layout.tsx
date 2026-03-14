@@ -7,8 +7,9 @@ import { SWRConfig } from "swr";
 import { discoverMedia } from "../server/discoverMedia";
 import { Suspense } from "react";
 import PageLoader from "../components/ui/PageLoader";
-
-import { movieGenreList, trendingList, tvGenreList } from "@server/cache-fetch";
+import { trendingList } from "@server/trendingList";
+import { movieGenreList } from "@server/movieGenres";
+import { tvGenreList } from "@server/tvGenres";
 import "react-loading-skeleton/dist/skeleton.css";
 import "@styles/globals.css";
 export const metadata: Metadata = {
@@ -28,26 +29,6 @@ const roboto = Roboto({
   fallback: ["sans serif"],
 });
 
-/**
- * The root layout component for the app.
- * It fetches trending, action, animation, and drama movies from the server.
- * It renders the header, footer, and children components wrapped in a SWRConfig component.
- * The SWRConfig component is used to configure the SWR library for server-side rendering.
- * The trending, action, animation, and drama movies are used as fallback data for the SWRConfig component.
- * The children components are wrapped in a SkeletonTheme component to display a loading skeleton while the data is being fetched.
- * The SkeletonTheme component is used to configure the react-loading-skeleton library for server-side rendering.
- * The baseColor and highlightColor props are used to customize the appearance of the loading skeleton.
- * The baseColor prop is used to set the background color of the loading skeleton.
- * The highlightColor prop is used to set the color of the loading skeleton's highlights.
- * @example
- * <RootLayout>
- *   <div>
- *     <h1>Hello World!</h1>
- *   </div>
- * </RootLayout>
- * @returns {JSX.Element} - The root layout component.
- */
-
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -61,6 +42,7 @@ export default async function RootLayout({
       movieGenreList(),
       tvGenreList(),
     ]);
+
   return (
     <html
       lang="en"
@@ -91,7 +73,7 @@ export default async function RootLayout({
             },
           }}
         >
-          <body className="bg-light" data-overlayscrollbars-initialize>
+          <body data-overlayscrollbars-initialize>
             <Header />
             <SkeletonTheme baseColor="#bcbcbc" highlightColor="#393939">
               {children}

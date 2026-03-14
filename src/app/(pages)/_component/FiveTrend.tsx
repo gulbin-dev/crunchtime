@@ -11,12 +11,10 @@ import {
 import { FaStar } from "react-icons/fa6";
 import { useEffect, useState } from "react";
 import genreAggregation from "../../utils/genreAggregation";
-import UI_Brick from "../../components/UI/UI_Brick";
-import FailedDataDialog from "../../components/UI/Error/FailedDataDialog";
+import UI_Brick from "../../components/ui/UI_Brick";
+import FailedDataDialog from "../../components/ui/Error/FailedDataDialog";
 import useSWR from "swr";
-
-const fetcher: <T>(url: string) => Promise<T> = (url) =>
-  fetch(url).then((res) => res.json());
+import { fetcher } from "@utils/swr/fetcher";
 
 export default function FiveTrend() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,16 +25,20 @@ export default function FiveTrend() {
       suspense: true,
     },
   );
-  const { data: movieGenre } = useSWR(
+  const { data: movieGenre, error: movieError } = useSWR(
     "/api/movie",
     (url) => fetcher<Genres>(url),
     {
       suspense: true,
     },
   );
-  const { data: tvGenre } = useSWR("/api/tv", (url) => fetcher<Genres>(url), {
-    suspense: true,
-  });
+  const { data: tvGenre, error: tvError } = useSWR(
+    "/api/tv",
+    (url) => fetcher<Genres>(url),
+    {
+      suspense: true,
+    },
+  );
   const genres = genreAggregation(movieGenre, tvGenre);
 
   const normalize = fiveTrend.results
@@ -59,22 +61,14 @@ export default function FiveTrend() {
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev === normalize.length - 1 ? 0 : prev + 1));
-    }, 4000);
+    }, 5500);
 
     return () => clearInterval(interval);
   }, [normalize, fiveTrendError]);
-
-  const activeItem = normalize?.[currentIndex];
-
   return (
     <>
-      {/* 1. Visually Hidden Live Region */}
       {fiveTrendError && <FailedDataDialog error={fiveTrendError} />}
-      <div className="sr-only" aria-live="polite" aria-atomic="true">
-        {activeItem
-          ? `${activeItem.media_type === "movie" ? "Movie" : "TV Show"} ${activeItem.title} genres are ${activeItem.genreNames.join(", ")}`
-          : ""}
-      </div>
+
       {normalize &&
         normalize.map((item, i) => {
           let setClass = "";
@@ -85,12 +79,10 @@ export default function FiveTrend() {
           } else if (currentIndex > i) {
             setClass = "carousel bottom-carousel";
           }
-          const isActive = currentIndex === i;
           return (
             <div
               key={item.id}
-              className={`flex absolute w-full h-full inset-0 top-0 left-0 ${setClass}`}
-              aria-hidden={!isActive}
+              className={`flex absolute w-full h-full inset-0 top-0 left-0  bg-dark-50/55 ${setClass}`}
             >
               <Image
                 src={`https://image.tmdb.org/t/p/w1280${item.backdrop_path}`}
@@ -98,7 +90,7 @@ export default function FiveTrend() {
                 fill={true}
                 loading="eager"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover"
+                className="object-cover aspect-video w-full h-full"
               />
               <div className="absolute inset-0  bg-black/50 z-10" />
 
@@ -106,12 +98,12 @@ export default function FiveTrend() {
                 <div className="flex flex-col gap-1">
                   <UI_Brick
                     value={item.media_type?.toUpperCase() || ""}
+                    ariaLabel="media type"
                     style="bg-dark-50/40"
                   />
                   <Link
                     href={`/preview/${item.media_type}/${item.id}`}
                     className="text-heading-lg underline underline-offset-8"
-                    tabIndex={isActive ? 0 : -1}
                   >
                     {item.title}
                   </Link>
@@ -121,9 +113,13 @@ export default function FiveTrend() {
                       {item.vote_average.toFixed(1)}
                     </span>
                   </p>
-                  <div className="flex flex-wrap  grow-0 gap-2">
+
+                  <ul
+                    aria-label="list of genres"
+                    className=" flex flex-wrap  grow-0 gap-2"
+                  >
                     <UI_Brick value={item.genreNames} style="bg-dark-50/40" />
-                  </div>
+                  </ul>
                 </div>
               </div>
             </div>

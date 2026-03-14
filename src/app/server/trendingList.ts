@@ -1,23 +1,26 @@
 import { FetchResponse } from "@utils/types";
-import { cacheTag } from "next/cache";
-import { MediaTypes, Response } from "../utils/types";
+import { Response, MediaTypes } from "../utils/types";
+import { cacheLife } from "next/cache";
+
+//  defining Authorization for every 'GET' request
 const options = {
   method: "GET",
   headers: {
     accept: "application/json",
     Authorization: `Bearer ${process.env.Read_Access_Token}`,
+    cache: "force-cache",
   },
 };
-export async function discoverMedia(
-  toFetch: string,
-  genreParam: string[],
-): Promise<Response<FetchResponse<MediaTypes>> | null> {
+
+//  fetching list of   `Movie`, `Tv shows` and `People`
+export async function trendingList(): Promise<
+  Response<FetchResponse<MediaTypes>>
+> {
   "use cache";
-  cacheTag("weeks");
-  const genre = genreParam.join("|");
+  cacheLife("weeks");
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/discover/${toFetch}?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc${genre !== "" ? `&with_genres=${genre}` : ""}`,
+      "https://api.themoviedb.org/3/trending/all/week?language=en-US",
       options,
     );
     if (!response.ok) {

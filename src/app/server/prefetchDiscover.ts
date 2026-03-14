@@ -21,19 +21,28 @@ export async function preFetchDiscover(request: NextRequest) {
     );
 
     if (!response.ok) {
-      return NextResponse.json(
-        { message: "Failed to fetch data" },
-        { status: response.status },
-      );
+      throw {
+        data: undefined,
+        error: {
+          state: true,
+          type: "HTTP_ERROR",
+          status: response.status,
+          message: "Failed to fetch data, please try again",
+        },
+      };
     }
-
     const data = await response.json();
-
     return NextResponse.json(data);
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Failed to fetch data" },
-      { status: 500 },
-    );
+  } catch {
+    throw {
+      data: undefined,
+      error: {
+        state: true,
+        type: "NETWORK_ERROR",
+        status: 500,
+        message:
+          "Unstable network connection, please check your internet connection",
+      },
+    };
   }
 }

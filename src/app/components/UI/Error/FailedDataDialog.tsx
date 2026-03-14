@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-
 export default function FailedDataDialog({
   error,
 }: {
@@ -14,21 +13,21 @@ export default function FailedDataDialog({
       else dialogRef.current.close();
     }
   }, [isOpen]);
-
-  const errorHeading = error instanceof Error;
+  const handleTry = () => {
+    setIsOpen(false);
+    location.reload();
+  };
   return (
     <dialog
       ref={dialogRef}
       className="rounded-lg bg-light text-dark place-self-center p-4"
       closedby="any"
     >
-      <h2 className="text-heading-md">
-        {!errorHeading && error.type}: {!errorHeading && error.status}
-      </h2>
+      <h2 className="text-heading-md"></h2>
       <p className="text-red-600 mt-3">{error.message}</p>
       <button
         className="bg-cta mt-5 float-right font-bold text-light rounded-md py-1 px-3"
-        onClick={() => setIsOpen(false)}
+        onClick={handleTry}
       >
         Try Again
       </button>

@@ -1,9 +1,10 @@
 @layer components {
   .hamburger-icon {
-    width: 60px;
+    width: 48px;
     height: 10px;
     background-color: var(--color-cta);
     border-radius: 8px;
+    position: absolute;
   }
   .tabs button:first-child {
     border-radius: 8px 0 0 8px;

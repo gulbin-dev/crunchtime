@@ -3,7 +3,7 @@ import { BsLinkedin, BsGithub, BsGlobe } from "react-icons/bs";
 export default function Footer() {
   return (
     <footer className="bg-dark-50 text-light py-4 w-full flex justify-center">
-      <div className="max-w-7xl w-full h-full p-5">
+      <div className="max-w-7xl w-full h-full px-3">
         <h2 className="text-heading-lg">CrunchTime</h2>
         <p className="mt-1 tablet:mt-2 tablet:px-3">
           A{" "}
@@ -13,7 +13,7 @@ export default function Footer() {
           made by a frontend React web developer Joshua Glenn R. Gulbin.
         </p>
 
-        <h3 className="mt-2 text-heading-md tablet:text-heading-md tablet:mt-4 pl-3 tablet:pl-5">
+        <h3 className="mt-5 tablet:text-heading-md tablet:mt-4 tablet:pl-5">
           Social Links
         </h3>
         <ul className="flex gap-2 p-3 tablet:mt-1 tablet:px-8">
@@ -45,7 +45,7 @@ export default function Footer() {
             </Link>
           </li>
         </ul>
-        <p className="place-self-center">
+        <p className="text-center">
           &copy; 2026 CrunchTime. All Rights Reserved
         </p>
       </div>

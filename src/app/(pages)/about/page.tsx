@@ -1,8 +1,13 @@
+"use client";
+import { useTheme } from "@utils/zustand/theme";
 import Link from "next/link";
 import { BsLinkedin, BsGithub, BsGlobe } from "react-icons/bs";
 export default function AboutPage() {
+  const theme = useTheme((state) => state.theme);
   return (
-    <main className="p-3 max-w-7xl flex flex-col items-center justify-self-center w-full">
+    <main
+      className={`p-3 max-w-7xl flex flex-col items-center justify-self-center w-full ${theme === "light" ? "bg-light text-dark" : "bg-dark text-light"}`}
+    >
       <h1 className="text-center text-heading-xl mt-5">CrunchTime</h1>
       <p className="mt-5 text-justify inline-block max-w-100">
         This website is for{" "}

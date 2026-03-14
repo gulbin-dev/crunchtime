@@ -3,28 +3,26 @@ import Image from "next/image";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { normalizePreviewData } from "../utils/normalizeData";
-import UI_Brick from "./UI/UI_Brick";
-import { handleRuntime } from "../utils/helper/previewHelpers";
+import UI_Brick from "./ui/UI_Brick";
+import { handleRuntime } from "../utils/previewHelpers";
 import { Preview } from "../utils/types";
-import CardPosterImagePlaceholder from "./UI/CardPosterImagePlaceholder";
-
-const fetcher = (url: string): Promise<Preview> =>
-  fetch(url).then((res) => res.json());
-
+import CardPosterImagePlaceholder from "./ui/CardPosterImagePlaceholder";
+import { fetcher } from "../utils/swr/fetcher";
+import { useTheme } from "../utils/zustand/theme";
 export default function MediaBanner() {
   const params = useParams();
-  const { data } = useSWR(
+  const { data, error } = useSWR(
     `/preview/${params.media}/${params.id}/api/preview?media=${params.media}&id=${params.id}`,
-    (url) => fetcher(url),
+    (url) => fetcher<Preview>(url),
     { suspense: true },
   );
-
+  const theme = useTheme((state) => state.theme);
   const normalize = data && normalizePreviewData(data);
   if (normalize === undefined) return null;
   const posterPath = normalize.images.posters[0]?.file_path;
   return (
     <div
-      className="flex gap-2 px-3 relative"
+      className={`flex gap-2 px-3 relative ${theme === "light" ? "bg-light text-dark" : "bg-dark text-light"}`}
       role="region"
       aria-labelledby={`title-banner ${normalize.media_type}`}
     >

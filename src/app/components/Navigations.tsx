@@ -1,7 +1,6 @@
 "use client";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
-
 export default function Navigations({
   navStyle,
   anchorStyle,

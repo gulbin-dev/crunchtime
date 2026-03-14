@@ -46,3 +46,9 @@
 - **Source**: [Bootstrap Icons](https://icons.getbootstrap.com/)
 - **Icons used**: `bs` (e.g., `BsLinkedin`)
 - **License**: [MIT](https://github.com/twbs/icons?tab=MIT-1-ov-file)
+
+### Material Design
+
+- **Source**: [Material Design](https://developers.google.com/fonts/docs/material_icons)
+- **Icons used**: `md` (e.g., `MdLightMode`)
+- **License**: [Apache 2.0](https://github.com/google/material-design-icons/blob/master/LICENSE)

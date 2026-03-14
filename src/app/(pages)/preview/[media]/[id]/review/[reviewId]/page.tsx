@@ -1,20 +1,21 @@
 "use client";
-import MediaBanner from "@/src/app/components/MediaBanner";
-import { FetchResponse, Review } from "@/src/app/utils/types";
+import MediaBanner from "@components/MediaBanner";
+import { FetchResponse, Review } from "@utils/types";
 import { redirect, RedirectType, useParams } from "next/navigation";
 import useSWR from "swr";
-import ReviewComponent from "@/src/app/components/ReviewComponent";
-import LineBreak from "@/src/app/components/UI/LineBreak";
+import LineBreak from "@components/ui/LineBreak";
 import { IoChevronBack } from "react-icons/io5";
-import PageLoader from "@/src/app/components/UI/PageLoader";
-const fetcher = (url: string): Promise<FetchResponse<Review[]>> =>
-  fetch(url).then((res) => res.json());
+import PageLoader from "@components/ui/PageLoader";
+import { fetcher } from "@utils/swr/fetcher";
+import { useTheme } from "@utils/zustand/theme";
+import ReviewComponent from "@components/ReviewComponent";
 export default function ReviewPage() {
   const params = useParams();
   const { data, error } = useSWR(
     `/preview/${params.media}/${params.id}/review/${params.reviewId}/api/review?media=${params.media}&id=${params.id}`,
-    (url) => fetcher(url),
+    (url) => fetcher<FetchResponse<Review[]>>(url),
   );
+  const theme = useTheme((state) => state.theme);
   if (error) console.error(error);
   if (!data)
     return (
@@ -26,7 +27,6 @@ export default function ReviewPage() {
   const review = data.results.filter(
     (item) => item.id === params.reviewId?.slice(0, -3),
   );
-  console.log(review[0]);
   const isUpdated = review[0].updated_at
     ? review[0].updated_at.length > 0
     : false;
@@ -46,7 +46,9 @@ export default function ReviewPage() {
     day: "numeric",
   });
   return (
-    <main className="w-full max-w-180 h-auto justify-self-center">
+    <main
+      className={`w-full max-w-180 h-auto justify-self-center ${theme === "light" ? "bg-light text-dark" : "bg-dark text-light"}`}
+    >
       <button
         className="ml-3 bg-cta rounded-full p-1"
         onClick={() =>
@@ -79,17 +81,13 @@ export default function ReviewPage() {
       </div>
       <LineBreak />
       <div>
-        <h2 className="text-heading-md ml-3">Other reviews</h2>
-        {data.results
-          .filter((item) => item.id !== review[0].id)
-          .map((item) => (
-            <ReviewComponent
-              key={item.id}
-              media={params.media}
-              id={params.id}
-              reviewID={params.reviewId?.slice(0, -3).toString()}
-            />
-          ))}
+        <h2 className="text-heading-md ml-3 tablet:mt-3">Other reviews</h2>
+
+        <ReviewComponent
+          media={params.media}
+          id={params.id}
+          reviewID={params.reviewId?.slice(0, -3).toString()}
+        />
       </div>
     </main>
   );

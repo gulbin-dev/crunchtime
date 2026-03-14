@@ -2,19 +2,17 @@
 import { useState } from "react";
 import CardPoster from "./CardPoster";
 import { Suspense } from "react";
-import InitialLoaderCardPoster from "../../components/UI/InitialLoaderCardPoster";
+import InitialLoaderCardPoster from "../../components/ui/InitialLoaderCardPoster";
 import { Genres } from "../../utils/types";
 import genreAggregation from "../../utils/genreAggregation";
 import { checkGenreName } from "../../utils/checkGenreName";
 import useSWR from "swr";
+import { fetcher } from "@utils/swr/fetcher";
 
 interface PropType {
   sectionTitle: string;
   genre: string[];
 }
-
-const fetcher: <T>(url: string) => Promise<T> = (url) =>
-  fetch(url).then((res) => res.json());
 
 /**
  * CatalogSection component
@@ -28,45 +26,55 @@ const fetcher: <T>(url: string) => Promise<T> = (url) =>
  */
 export default function CatalogSection({ sectionTitle, genre }: PropType) {
   const [catalog, setCatalog] = useState("movie");
-  const { data: movieGenre } = useSWR(
+  const { data: movieGenre, error: movieError } = useSWR(
     "/api/movie",
     (url) => fetcher<Genres>(url),
     {
       suspense: true,
     },
   );
-  const { data: tvGenre } = useSWR("/api/tv", (url) => fetcher<Genres>(url), {
-    suspense: true,
-  });
+  const { data: tvGenre, error: tvError } = useSWR(
+    "/api/tv",
+    (url) => fetcher<Genres>(url),
+    {
+      suspense: true,
+    },
+  );
   const fullGenreList = genreAggregation(movieGenre, tvGenre);
   const genreID = fullGenreList
     .filter((item) => checkGenreName(item, genre))
     .map((item) => item.id);
   const filteredGenre = genreID.join("|");
-  function handleSwitch(type: string) {
+
+  const handleSwitch = (type: string) => {
     setCatalog(type);
-  }
+  };
 
   return (
-    <>
-      <div className="flex gap-2 mt-2 ml-3 m-w-180">
-        <h2 className="text-heading-lg" id="header-section-title">
+    <section
+      className="mt-2 tablet:mt-8"
+      aria-labelledby={`catalog-${sectionTitle}`}
+    >
+      <div className="flex flex-col gap-2 mt-2 ml-3 m-w-180 items-center tablet:flex-row">
+        <h2 className="text-heading-lg" id={`catalog-${sectionTitle}`}>
           {sectionTitle}
         </h2>
         <div className="flex" role="tablist" aria-label="Select catalog type">
           <button
-            className={`w-10 h-fit py-1 px-2 rounded-l-md font-bold text-light ${catalog === "movie" ? "bg-cta" : "bg-cta-secondary"}`}
+            className={`w-13 h-6 py-0 px-2 rounded-l-md font-bold tablet:h-5 text-light ${catalog === "movie" ? "bg-cta" : "bg-cta-secondary"}`}
             onClick={() => handleSwitch("movie")}
             role="tab"
             aria-selected={catalog === "movie"}
+            aria-label="List of movies"
           >
             Movie
           </button>
           <button
-            className={`w-10 h-fit py-1 px-2 rounded-r-md font-bold text-light ${catalog === "tv" ? "bg-cta" : "bg-cta-secondary"}`}
+            className={`w-13 h-6 py-1 px-2 rounded-r-md font-bold   tablet:h-5 text-light ${catalog === "tv" ? "bg-cta" : "bg-cta-secondary"}`}
             onClick={() => handleSwitch("tv")}
             role="tab"
             aria-selected={catalog === "tv"}
+            aria-label="List of tv shows"
           >
             TV
           </button>
@@ -74,7 +82,7 @@ export default function CatalogSection({ sectionTitle, genre }: PropType) {
       </div>
       <div
         className="w-[90vw] max-w-7xl place-self-center h-42 p-3 relative overflow-y-hidden overflow-x-auto  scroller"
-        role="tab-panel"
+        role="tabpanel"
       >
         <ul className="flex gap-3 items-center w-full" aria-live="polite">
           <Suspense fallback={<InitialLoaderCardPoster />}>
@@ -82,6 +90,6 @@ export default function CatalogSection({ sectionTitle, genre }: PropType) {
           </Suspense>
         </ul>
       </div>
-    </>
+    </section>
   );
 }

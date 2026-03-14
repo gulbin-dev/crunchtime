@@ -1,19 +1,13 @@
 "use client";
 import Image from "next/image";
-import { normalizeData } from "@/src/app/utils/normalizeData";
+import { normalizeData } from "@utils/normalizeData";
 import Link from "next/link";
 import "react-loading-skeleton/dist/skeleton.css";
 import useSWR from "swr";
 import { FetchResponse, MediaTypes } from "../../utils/types";
-import CardPosterImagePlaceholder from "../../components/UI/CardPosterImagePlaceholder";
-import LoaderCardPoster from "../../components/UI/LoaderCardPoster";
-/**
- * @description - Fetcher function for fetching data from the API.
- * @param {string} url - The URL to fetch data from.
- * @returns {Promise<FetchResponse<MediaTypes>>} - A promise that resolves to a FetchResponse object containing the fetched data.
- */
-const fetcher = (url: string): Promise<FetchResponse<MediaTypes>> =>
-  fetch(url).then((res) => res.json());
+import CardPosterImagePlaceholder from "../../components/ui/CardPosterImagePlaceholder";
+import LoaderCardPoster from "../../components/ui/LoaderCardPoster";
+import { fetcher } from "@utils/swr/fetcher";
 
 /**
  * CardPoster component
@@ -30,9 +24,9 @@ export default function CardPoster({
   catalog: string;
   filteredGenre: string;
 }) {
-  const { data, isLoading, isValidating } = useSWR(
+  const { data, isLoading, isValidating, error } = useSWR(
     `/api/catalog?mediaType=${catalog}&genre=${filteredGenre}`,
-    fetcher,
+    (url) => fetcher<FetchResponse<MediaTypes>>(url),
     { suspense: true },
   );
   const normalized = normalizeData(data);
@@ -48,7 +42,7 @@ export default function CardPoster({
           href={`/preview/${catalog}/${item.id}`}
           aria-label={`View details for ${item.normalized?.normalizeTitle}`}
         >
-          <div className="rounded-xl relative min-w-20 h-35 bg-secondary">
+          <div className="rounded-xl relative min-w-20 h-35 text-dark bg-secondary">
             {item.poster_path === null ? (
               <div>
                 <CardPosterImagePlaceholder />

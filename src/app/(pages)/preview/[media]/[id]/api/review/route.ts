@@ -4,8 +4,9 @@ export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const media = searchParams.get("media");
   const id = searchParams.get("id");
+  const page = searchParams.get("page");
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/${media}/${id}/reviews?language=en-US&page=1`,
+    `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/${media}/${id}/reviews?language=en-US&page=${page}`,
     {
       method: "GET",
       headers: {

@@ -3,7 +3,6 @@ This repository contains a demo website created by Joshua Glenn R. Gulbin.
 Joshua Glenn R. Gulbin is a frontend React web developer who focuses on building responsive, user-friendly, and SEO-friendly websites while maintaining a clean codebase.
 
 The website “CrunchTime” uses the TMDB API but is not endorsed, certified, or otherwise approved by TMDB.
-<<<<<<< HEAD
 
 ## Credits & Licenses
 
@@ -11,5 +10,3 @@ The website “CrunchTime” uses the TMDB API but is not endorsed, certified, o
 - **Icons**: Icons provided by Font Awesome, Ionicons, Circum Icons, and Tabler Icons via [react-icons](https://github.io).
 - **Third-Party Notices**: See [THIRD-PARTY-NOTICES.md](./THIRD-PARTY-NOTICES.md) for full license details.
 - **Software License**: This project is licensed under the [MIT License](./LICENSE).
-=======
->>>>>>> a812d0779be92fa21fb9261b2afab2481cd17d76
