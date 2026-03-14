@@ -17,7 +17,6 @@ export default function ErrorBoundary({ error }: { error: Error }) {
     <div className="w-full h-screen">
       <h2>{errorName}</h2>
       <p>{errorMessage}</p>
-      <p>This is root error boundary</p>
     </div>
   );
 }
