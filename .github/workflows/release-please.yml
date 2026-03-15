@@ -13,8 +13,11 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
-
     steps:
       - uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.RELEASE_TOKEN }}
+      - name: "notify vercel"
+        uses: "vercel/repository-dispatch/actions/status@v1"
+        with:
+          name: "Vercel - crunchtime: lint"
