@@ -15,6 +15,7 @@ export default function Header() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const setTheme = useTheme((state) => state.setTheme);
   const theme = useTheme((state) => state.theme);
+
   useEffect(() => {
     const buttonEl = buttonRef.current;
     if (
@@ -98,16 +99,20 @@ export default function Header() {
               <ul className="flex gap-3">
                 <li>
                   <Link
+                    className={`${pathname === "/" ? "active" : ""}`}
                     href="/"
                     aria-current={pathname === "/" ? "page" : undefined}
+                    data-nav-link
                   >
                     Home
                   </Link>
                 </li>
                 <li>
                   <Link
+                    className={`${pathname === "/about" ? "active" : ""}`}
                     href="/about"
                     aria-current={pathname === "/about" ? "page" : undefined}
+                    data-nav-link
                   >
                     About
                   </Link>
