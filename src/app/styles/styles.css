@@ -84,4 +84,26 @@
     width: 8px !important;
     height: 8px !important;
   }
+  a[data-nav-link] {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+  }
+  a[data-nav-link]:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 5px;
+    background-color: var(--color-cta);
+    transition: width 0.3s ease-in-out;
+  }
+  a[data-nav-link]:hover:after {
+    width: 100%; /* Expands on hover */
+  }
+  a[data-nav-link].active {
+    color: var(--color-cta);
+    font-weight: bold;
+  }
 }
