@@ -30,7 +30,7 @@ export default function Home() {
           tablet:pt-5 tablet:ml-10  tablet:text-heading-lg tablet:text-start 
           "
           >
-            Discover worth to watch movies & TV shows sdsdssdsda
+            Discover worth to watch movies & TV shows aaaaaaa
           </h1>
           <button
             className="bg-cta  text-light font-bold py-0.5 px-3 mx-3 mt-3 rounded-lg tablet:w-40 tablet:mt-3 tablet:ml-15"
