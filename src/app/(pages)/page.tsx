@@ -75,7 +75,7 @@ export default function Home() {
             DISCOVER MORE
           </Link>
           <div
-            className={`flex flex-col mt-5 px-3 py-4 gap-2 tablet:flex-row ${theme === "light" ? "bg-gray-shade text-dark" : "bg-dark-50 text-light"}`}
+            className={`flex flex-col mt-5 px-3 py-10 gap-2 tablet:flex-row tablet:justify-center tablet:gap-20  ${theme === "light" ? "bg-gray-shade text-dark" : "bg-dark-50 text-light"}`}
           >
             <div>
               <h3 className="text-heading-lg">Watch Anytime, Anywhere</h3>
