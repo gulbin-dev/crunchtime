@@ -22,7 +22,15 @@ export const mediaTypeChecker = (
  * @returns Clean path string or empty string if malicious
  */
 export const preventPathTraversal = (value: string): string => {
-  return value.replace(/\.\.\//g, "");
+  const normalized = value.replace(/\\/g, "/");
+  const segments = normalized.split("/");
+
+  // Reject traversal/current-directory/empty segments to avoid path confusion.
+  if (segments.some((segment) => segment === "" || segment === "." || segment === "..")) {
+    return "";
+  }
+
+  return path.posix.join(...segments);
 };
 
 /**
