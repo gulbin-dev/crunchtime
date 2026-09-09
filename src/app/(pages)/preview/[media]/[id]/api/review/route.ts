@@ -1,10 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  mediaTypeChecker,
+  preventPathTraversal,
+  pageNumberChecker,
+} from "@utils/serverPathChecker";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
-  const media = searchParams.get("media");
-  const id = searchParams.get("id");
-  const page = searchParams.get("page");
+  const mediaParams = searchParams.get("media");
+  const idParams = searchParams.get("id");
+  const pageParams = searchParams.get("page");
+
+  const media = mediaTypeChecker(mediaParams!);
+  const id = preventPathTraversal(idParams!);
+  const page = pageNumberChecker(pageParams!);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/${media}/${id}/reviews?language=en-US&page=${page}`,
     {

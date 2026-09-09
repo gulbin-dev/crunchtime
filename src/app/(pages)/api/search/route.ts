@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
+import { mediaTypeChecker } from "@utils/serverPathChecker";
+
 export async function GET(request: NextRequest) {
   const { searchParams } = request.nextUrl;
   const query = searchParams.get("query");
-  const media = searchParams.get("media");
+  const mediaType = searchParams.get("media");
+
+  const media = mediaTypeChecker(mediaType!);
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/search/${media}?query=${query}&include_adult=false&language=en-US&page=1`,
     {
