@@ -9,10 +9,6 @@ import toastStatus from "@utils/notification/toastStatus";
  */
 const handleFetchError = <T>(error: unknown, url: string): T => {
   if (error instanceof Error && error.name === "AbortError") {
-    toastStatus("Request was cancelled.", {
-      id: `fetch-cancelled-${url}`,
-      status: "error",
-    });
     return null as T;
   }
 
@@ -58,8 +54,11 @@ const fetchWithErrorHandling = async <T>(
  */
 export const fetcher = async <T>(
   url: string,
-  signal?: AbortSignal,
-): Promise<T> => fetchWithErrorHandling<T>(url, { signal });
+  options?: { signal?: AbortSignal },
+): Promise<T> => {
+  const signal = options?.signal;
+  return fetchWithErrorHandling<T>(url, { signal });
+};
 
 /**
  * POST request helper .
