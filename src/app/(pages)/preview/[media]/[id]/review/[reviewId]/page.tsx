@@ -12,9 +12,9 @@ import { BackIcon } from "@utils/tabler-icons";
 
 export default function ReviewPage() {
   const params = useParams();
-  const { data } = useSWR(
+  const { data } = useSWR<FetchResponse<Review[]>>(
     `/preview/${params.media}/${params.id}/review/${params.reviewId}/api/review?media=${params.media}&id=${params.id}`,
-    (url) => fetcher<FetchResponse<Review[]>>(url),
+    fetcher,
   );
   if (!data)
     return (
@@ -48,10 +48,7 @@ export default function ReviewPage() {
         <button
           className="bg-cta ml-3 rounded-full p-1"
           onClick={() =>
-            redirect(
-              `/preview/${params.media}/${params.id}`,
-              RedirectType.replace,
-            )
+            redirect(`/preview/${params.media}/${params.id}`, RedirectType.push)
           }
         >
           <BackIcon className="text-2xl" />

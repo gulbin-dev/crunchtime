@@ -30,9 +30,9 @@ export default function SearchUI({
   const indicatorRef = useRef<HTMLSpanElement | null>(null);
   const movieTabRef = useRef<HTMLButtonElement | null>(null);
   const tvTabRef = useRef<HTMLButtonElement | null>(null);
-  const { data, isLoading, error } = useSWR(
+  const { data, isLoading, error } = useSWR<FetchResponse<MediaTypes>>(
     query.length > 0 ? `/api/search?query=${query}&media=${catalog}` : null,
-    (url: string) => fetcher<FetchResponse<MediaTypes>>(url),
+    fetcher,
   );
 
   const normalized = data ? normalizeData(data.results) : [];

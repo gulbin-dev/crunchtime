@@ -22,11 +22,11 @@ export default function ReviewComponent({ reviewID }: { reviewID?: string }) {
     allReviews.filter((item) => item.id !== (reviewID || "")),
     { itemsPerPage: 5 },
   );
-  const { data } = useSWR(
+  const { data } = useSWR<FetchResponse<Review[]>>(
     hasMorePages
       ? `/preview/${params.media}/${params.id}/api/review?media=${params.media}&id=${params.id}&page=${pageIndex}`
       : null,
-    (url) => fetcher<FetchResponse<Review[]>>(url),
+    fetcher,
     {
       suspense: true,
       revalidateOnFocus: false,
