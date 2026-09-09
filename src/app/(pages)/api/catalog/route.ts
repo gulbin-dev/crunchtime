@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { normalizeData } from "@utils/normalizeData";
 import { getPlaiceholder } from "plaiceholder";
+import { mediaTypeChecker } from "@utils/serverPathChecker";
 
 export async function GET(request: NextRequest) {
   // 1. Parse URL search parameters
@@ -8,18 +9,12 @@ export async function GET(request: NextRequest) {
   const mediaType = searchParams.get("mediaType");
   const genre = searchParams.get("genre");
 
-  // Validate parameters to prevent bad API requests
-  if (!mediaType) {
-    return NextResponse.json(
-      { error: "Missing mediaType parameter" },
-      { status: 400 },
-    );
-  }
-
   try {
-    // 2. Fetch the catalog data from TMDB with AbortSignal support
+    const regexGenre = genre?.replace(/\D+/g, "") ?? ""; // explicitly return only number or empty string
+    const media = mediaTypeChecker(mediaType!);
+    // 2. Fetch the catalog data from TMDB
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/discover/${mediaType}?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc${genre ? `&with_genres=${genre}` : ""}`,
+      `${process.env.NEXT_PUBLIC_TMDB_BASE_URL}/discover/${media}?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc&with_genres=${regexGenre}`,
       {
         method: "GET",
         headers: {
