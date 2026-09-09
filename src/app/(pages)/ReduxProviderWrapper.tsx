@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { store } from "@utils/redux-toolkit/store";
 import { useAppSelector } from "@hooks/redux-typed-hooks";
 import { RootState } from "@utils/redux-toolkit/store";
-import { useSyncExternalStore } from "react";
+import { useSyncExternalStore, Suspense } from "react";
 import { SkeletonTheme } from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -37,14 +37,16 @@ export default function ReduxProviderWrapper({
 }) {
   return (
     <Provider store={store}>
-      <Rehydrated>
-        <SkeletonTheme
-          baseColor="var(--color-secondary)"
-          highlightColor="var(--color-secondary-darker)"
-        >
-          {children}
-        </SkeletonTheme>
-      </Rehydrated>
+      <Suspense fallback={null}>
+        <Rehydrated>
+          <SkeletonTheme
+            baseColor="var(--color-secondary)"
+            highlightColor="var(--color-secondary-darker)"
+          >
+            {children}
+          </SkeletonTheme>
+        </Rehydrated>
+      </Suspense>
     </Provider>
   );
 }

@@ -7,6 +7,7 @@ import ClientDetailsSection from "./_component/ClientDetailsSection";
 import PreviewClientComponent from "./_component/PreviewClientComponent";
 import { YoutubeVideo } from "./_component/DataDependentComponents";
 
+export const instant = false;
 export default function PreviewPage() {
   return (
     <PageWrapper className="tablet:gap-x-8 tablet:px-4 desktop:px-6 tablet:pb-8 desktop:grid-cols-12 desktop:grid-flow-row desktop:auto-rows-min mx-auto grid auto-rows-auto grid-cols-1 pt-4">

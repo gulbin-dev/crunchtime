@@ -23,6 +23,7 @@ export default function CatalogSection({ sectionTitle, genre }: PropType) {
     .filter((item) => checkGenreName(item, genre))
     .map((item) => item.id);
   const filteredGenre = genreID.join("|");
+
   return (
     <section
       className="tablet:mt-10 desktop-large:max-w-210 desktop:max-w-180 mt-6 w-full place-self-center px-3"
