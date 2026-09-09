@@ -31,7 +31,7 @@ jobs:
         run: npm audit signatures
 
       - name: Run lint and tests
-        run: npm test-eslint
+        run: npm run test-eslint
 
   release:
     name: Release
