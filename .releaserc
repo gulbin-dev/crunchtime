@@ -1,0 +1,4 @@
+{
+  branches: ["master", { name: "beta", prerelease: true }],
+  repositoryUrl: "https://github.com/gulbin-dev/Crunchtime.git",
+}
